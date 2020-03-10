@@ -18,7 +18,14 @@ const Route = use('Route')
 
 Route.get('/', 'TesteController.index')
 
-Route.resource('/usuarios', 'UsuarioController')
+
+
+Route.resource('usuarios', 'UsuarioController')
+Route.resource('posts', 'PostController').middleware(['auth'])
+
+Route.get('postsUsuarios/:id','UsuarioController.postsUsuarios')
+Route.get('usuariosPosts/:id','PostController.usuariosPosts')
+Route.post('login', 'UsuarioController.getToken')
 
 
 Route.group(() => {

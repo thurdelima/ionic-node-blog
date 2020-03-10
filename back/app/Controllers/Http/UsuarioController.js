@@ -68,6 +68,12 @@ class UsuarioController {
   
   }
 
+  async postsUsuarios ({ params, request, response, view }) {
+    const userPosts = await UsuarioModel.find(params.id);
+    userPosts.posts = await userPosts.posts().fetch();
+    return userPosts;
+  }
+
   /**
    * Render a form to update an existing usuario.
    * GET usuarios/:id/edit
@@ -113,6 +119,17 @@ class UsuarioController {
     const user = await UsuarioModel.find(params.id);
     user.delete();
     response.send({mensagem: 'Deletado com sucesso'});
+
+
+  }
+
+  async getToken({request, response, auth}) {
+      
+      const {email, password} =request.all();
+      const autentication = await auth.attempt(email, password);
+      //const token = await auth.generate(autentication)
+      console.log(autentication);
+      response.send(autentication);
 
 
   }
